@@ -18,6 +18,15 @@ Install the command-line tool:
 npm install -g resume-cli
 ```
 
+## Commands at a glance
+
+| command                | description                               |
+| ---------------------- | ----------------------------------------- |
+| init                   | Initialize a `resume.json` file           |
+| validate               | Schema validation test your `resume.json` |
+| export [fileName.html] | Export locally to `.html`                 |
+| serve                  | Serve resume at `http://localhost:4000/`  |
+
 # Usage
 
 ## `resume --help`
@@ -31,14 +40,14 @@ Creates a new `resume.json` file in your current working directory.
 Complete the `resume.json` with your text editor. Be sure to follow the schema
 (available at http://jsonresume.org).
 
-## `resume test`
+## `resume validate`
 
 Validates your `resume.json` against our schema tests to ensure it complies with
 the standard. Tries to identify where any errors may be occurring.
 
 ## `resume export [fileName]`
 
-Exports your resume locally in a stylized HTML, Markdown, or PDF format.
+Exports your resume locally in a stylized HTML or PDF format.
 
 A list of available themes can be found here: http://jsonresume.org/themes/
 
@@ -51,15 +60,41 @@ Options:
 
 ## `resume serve`
 
-Starts a web server that serves your local `resume.json`.
+Starts a web server that serves your local `resume.json`. It will live reload when you make edits to your `resume.json`.
 
 Options:
 
 - `--port <port>`
 - `--theme <name>`
 
-If no theme is specified, it will look for the file `index.js` and call
-`render()`. This is useful when developing themes.
+When developing themes, simply change into your theme directory and run `resume serve --theme .` (which tells it to run the local folder as the specified theme)
+
+# supported resume input types
+
+- [`json`](https://www.json.org/json-en.html): via `JSON.parse`.
+- [`yaml`](https://yaml.org/): via [`yaml-js`](https://www.npmjs.com/package/yaml-js)
+- `quaff`: if `--resume` is a directory, then the path is passed to [`quaff`](https://www.npmjs.com/package/quaff) and the resulting json is used as the resume. quaff supports a variety of formats in the directory, including javascript modules.
+
+# resume data
+
+- Setting `--resume -` tells the cli to read resume data from standard input (`stdin`), and defaults `--type` to `application/json`.
+- Setting `--resume <path>` reads resume data from `path`.
+- Leaving `--resume` unset defaults to reading from `resume.json` on the current working directory.
+
+# resume mime types
+
+Supported resume data mime types are:
+
+- `application/json`
+- `text/yaml`
+
+# Development
+
+to test the cli, run the dev script:
+
+```sh
+npm run dev -- [cli arguments can be passed after the double-dash]
+```
 
 # License
 

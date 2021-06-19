@@ -5,14 +5,26 @@
     "mocha": true,
     "node": true
   },
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "overrides": [
+    {
+      "env": {
+        "jest/globals": true
+      },
+      "files": ["**/*.test.js"],
+      "plugins": ["jest"]
+    }
+  ],
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 9
   },
+  "plugins": ["prettier"],
   "rules": {
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-var": "error",
     "prefer-arrow-callback": "error",
-    "prefer-const": "error"
+    "prefer-const": "error",
+    "prettier/prettier": "error"
   }
 }
